@@ -212,7 +212,7 @@ def minimize(bins, counts, fcn, parameters, names, errors, limits,
 
     Returns
     -------
-    nll : function
+    output : dictionary
 
     """
 
