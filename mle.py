@@ -83,6 +83,8 @@ def bimodal_crystal_ball(x, mu1, sigma1, beta1, m1, a1, mu2, sigma2,
     bimodal_crystal_ball(x, mu1, sigma1, beta1, m1, a1, mu2, sigma2,
                          beta2, m2, a2)
 
+    Linear combination of two Crystal Ball functions.
+
     Parameters
     ----------
     x      : float or array_like of floats
@@ -143,6 +145,59 @@ def novosibirsk(x, mu, sigma, tau):
     width_zero2 = width_zero * width_zero
     exponent = ( -0.5 / (width_zero2) * log * log ) - ( width_zero2 * 0.5 )
     f = np.exp(exponent)
+    return f
+
+#------------------------------------------------------------------------------
+# truncated shelf
+# [ https://doi.org/10.1016/0168-9002(94)91777-9 ]
+#------------------------------------------------------------------------------
+def truncated_shelf(x, loc1, scale1, loc2, scale2, b):
+    """
+    truncated_shelf(x, loc1, scale1, loc2, scale2, b)
+
+    Parameters
+    ----------
+    x      : float or array_like of floats
+    loc1   : float
+    scale1 : float
+    loc2   : float
+    scale2 : float
+    b      : float
+
+    Returns
+    -------
+    f : float or ndarray
+
+    """
+    x = np.asarray(x)
+    f = b * (erf((x-loc1)/scale1) - erf((x-loc2)/scale2))
+    return f
+
+def truncated_shelf_gaussian(x, mu, sigma, a, loc1, scale1, loc2, scale2, b):
+    """
+    truncated_shelf_gaussian(x, mu, sigma, a, loc1, scale1, loc2, scale2, b)
+
+    Linear combination of a Gaussian function and a truncated shelf.
+
+    Parameters
+    ----------
+    x     : float or ndarray
+    mu    : float
+    sigma : float
+    a     : float
+    loc1   : float
+    scale1 : float
+    loc2   : float
+    scale2 : float
+    b      : float
+
+    Returns
+    -------
+    f : float or ndarray
+
+    """
+    f = normal(x, mu, sigma, a) + \
+        truncated_shelf(x, loc1, scale1, loc2, scale2, b)
     return f
 
 #------------------------------------------------------------------------------
